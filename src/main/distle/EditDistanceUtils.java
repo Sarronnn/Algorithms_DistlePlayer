@@ -8,14 +8,60 @@ public class EditDistanceUtils {
      * Returns the completed Edit Distance memoization structure, a 2D array
      * of ints representing the number of string manipulations required to minimally
      * turn each subproblem's string into the other.
-     * 
-     * @param s0 String to transform into other
-     * @param s1 Target of transformation
+     * t[r,c]
+     * @param s0 String to transform into other = Row
+     * @param s1 Target of transformation = Column
      * @return Completed Memoization structure for editDistance(s0, s1)
      */
     public static int[][] getEditDistTable (String s0, String s1) {
-        // [!] TODO!
-        throw new UnsupportedOperationException();
+        
+        int rowSize = s0.length();
+        int columnSize = s1.length();
+        int[][] table = new int [s0.length() + 1][s1.length() + 1];
+        
+        //Gutters:
+        for (int r = 0; r < rowSize + 1; r++) {
+        	table[r][0] = r;		
+        }
+        	
+        for (int c=0; c< columnSize +1; c++) {
+        	table[0][c] = c;	
+        }
+        //Fill out table:
+        for (int r = 1; r < rowSize + 1; r++) {
+        	for (int c = 1; c < columnSize +1; c++) {
+        		
+        		//deletion case
+        		if(r >= 1) {
+        			table[r][c] = table[r-1][c] +1;
+        			
+        		}
+        		//insertion case
+        		if(c >= 1) {
+        			table[r][c] = Math.min(table[r][c-1] + 1, table[r][c]);
+        			
+        		}
+        		//replacement case
+        		if(r >=1 && c >= 1) {
+        			if(s0.charAt(r-1) == s1.charAt(c-1)) {
+        				table[r][c] = Math.min(table[r-1][c-1], table[r][c]);
+        			}
+        			else {
+        				table[r][c] = Math.min(table[r-1][c-1] + 1, table[r][c]);
+        				
+        			}
+        		}
+        		//transposition case
+        		if (r >=2 && c >=2 && s0.charAt(r-1) == s1.charAt(c-2) && s0.charAt(r-2) == s1.charAt(c-1)) {
+        			table[r][c] = Math.min(table[r-2][c-2] + 1, table[r][c]);
+        			
+        			
+        		}
+        			
+        	}
+        }
+        
+        return table;
     }
     
     /**
@@ -41,7 +87,19 @@ public class EditDistanceUtils {
      */
     public static List<String> getTransformationList (String s0, String s1, int[][] table) {
         // [!] TODO!
-        throw new UnsupportedOperationException();
+    	List<String> transformation;
+    	int rowSize = s0.length();
+        int columnSize = s1.length();
+    	table = getEditDistTable(s0, s1);
+    	for (int r = 1; r < rowSize + 1; r++) {
+        	for (int c = 1; c < columnSize +1; c++) { 
+        		//how to compare them and pick out of all the possible moves
+        		
+        	}
+       
+    	
+    	throw new UnsupportedOperationException();
+        
     }
     
     /**
