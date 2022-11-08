@@ -30,38 +30,30 @@ public class EditDistanceUtils {
 		// Fill out table:
 		for (int r = 1; r < rowSize + 1; r++) {
 			for (int c = 1; c < columnSize + 1; c++) {
-				//List<Integer> possibleSteps = new ArrayList<>();
 				
 				// deletion case (r >= 1)
 				table[r][c] = table[r - 1][c] + 1;
-					//possibleSteps.add(table[r - 1][c] + 1);
-
 				
 				// insertion case (c >= 1)
-					table[r][c] = Math.min(table[r][c - 1] + 1, table[r][c]);
-					//possibleSteps.add(table[r][c - 1] + 1);
-
-			
+				table[r][c] = Math.min(table[r][c - 1] + 1, table[r][c]);
+					
 				// replacement case (r & c are both > = 1 NOTE if same letter, don't add one)
-					if (s0.charAt(r - 1) == s1.charAt(c - 1)) {
-						table[r][c] = Math.min(table[r - 1][c - 1], table[r][c]);
-						//possibleSteps.add(table[r - 1][c - 1]);
-					} else {
-						//possibleSteps.add(table[r - 1][c - 1] + 1);
-						table[r][c] = Math.min(table[r - 1][c - 1] + 1, table[r][c]);
+				if (s0.charAt(r - 1) == s1.charAt(c - 1)) {
+					table[r][c] = Math.min(table[r - 1][c - 1], table[r][c]);
+						
+				} else {
+						
+					table[r][c] = Math.min(table[r - 1][c - 1] + 1, table[r][c]);
 
-					}
+				}
 			
 				// transposition case
 				if (r >= 2 && c >= 2 && s0.charAt(r - 1) == s1.charAt(c - 2) && s0.charAt(r - 2) == s1.charAt(c - 1)) {
 					table[r][c] = Math.min(table[r - 2][c - 2] + 1, table[r][c]);
-					//possibleSteps.add(table[r - 2][c - 2] + 1);
+					
 				}
-				//table[r][c] = Collections.min(possibleSteps);
 			}
-			
 		}
-
 		return table;
 	}
 
@@ -111,7 +103,6 @@ public class EditDistanceUtils {
 				nextColumn = column - 1;
 			}
 			
-			
 			//Transposition case
 			if (row >= 2 && column >= 2 && table[row - 2][column - 2] < best) {
 				if (s0.charAt(row - 1) == s1.charAt(column - 2) && s0.charAt(row - 2) == s1.charAt(column - 1)) {
@@ -122,7 +113,6 @@ public class EditDistanceUtils {
 				}
 			}
 			
-			
 			//Insertion case
 			if (column >= 1 && table[row][column - 1] < best) {
 				best = table[row][column - 1];
@@ -130,8 +120,7 @@ public class EditDistanceUtils {
 				nextColumn = column - 1;
 				nextRow = row;
 			}
-			
-			
+
 			//Deletion case
 			if (row >= 1 && table[row - 1][column] < best) {
 				best = table[row - 1][column];
