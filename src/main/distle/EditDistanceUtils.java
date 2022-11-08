@@ -60,7 +60,7 @@ public class EditDistanceUtils {
 	/**
 	 * Returns one possible sequence of transformations that turns String s0 into
 	 * s1. The list is in top-down order (i.e., starting from the largest subproblem
-	 * in the memoization structure) and consists of Strings representing the String
+	 * in the memoization structure/) and consists of Strings representing the String
 	 * manipulations of:
 	 * <ol>
 	 * <li>"R" = Replacement</li>
