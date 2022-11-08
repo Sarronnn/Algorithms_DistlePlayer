@@ -10,7 +10,6 @@ import java.util.*;
  */
 public class DistlePlayer {
     
-    // [!] TODO: Any fields you want here!
 	Set<String> dictionary;
 	Integer maxGuesses;
 	String playerGuess;
@@ -49,12 +48,22 @@ public class DistlePlayer {
      * @return The next guess from this DistlePlayer.
      */
     public String makeGuess () {
-        // [!] TODO!
-        throw new UnsupportedOperationException();
-    	//return dictionary.getWord();
-       
-       
-      
+    	String guessed = " ";
+    	
+    	if(playerGuess == null) {
+    		
+    		for(String stringToCompare: dictionary) {
+    			if(guessed.length() < stringToCompare.length()) {
+    				guessed = stringToCompare;
+    			return guessed;
+    			}
+    		}
+    	}
+    	else {
+    		return playerGuess;
+    	}
+    	return guessed;
+    	 
     }
     
     /**
@@ -73,9 +82,14 @@ public class DistlePlayer {
      * @param transforms List of top-down transforms needed to turn the guess into the secret word
      */
     public void getFeedback (String guess, int editDistance, List<String> transforms) {
-        // [!] TODO!
-    	transforms = getTransformationList (guess,guess);
-        throw new UnsupportedOperationException();
+       
+    	Set<String> updatedDict = new HashSet<>(); 
+    	for(String stringtoCompare : dictionary) {
+    		List<String > compare = getTransformationList(guess, stringtoCompare); 
+        	if (transforms.equals(compare)) {
+        		updatedDict.add(stringtoCompare);
+        	}
+        }
     }
     
 }
