@@ -184,8 +184,10 @@ public class EditDistanceUtilsTests {
     public void transformList_t8() {
         String s0 = "astound",
                s1 = "distant";
+        
         assertEquals(Arrays.asList("R", "R", "D", "R", "I"), getTransformationList(s0, s1));
         assertEquals(Arrays.asList("R", "R", "I", "R", "D"), getTransformationList(s1, s0));
+        
     }
    
     @Test

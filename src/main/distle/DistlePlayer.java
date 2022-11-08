@@ -1,5 +1,6 @@
 package main.distle;
 
+
 import static main.distle.EditDistanceUtils.*;
 import java.util.*;
 
@@ -10,6 +11,10 @@ import java.util.*;
 public class DistlePlayer {
     
     // [!] TODO: Any fields you want here!
+	Set<String> dictionary;
+	Integer maxGuesses;
+	String playerGuess;
+	
     
     /**
      * Constructs a new DistlePlayer.
@@ -32,8 +37,9 @@ public class DistlePlayer {
      * @param maxGuesses The max number of guesses available to the player.
      */
     public void startNewGame (Set<String> dictionary, int maxGuesses) {
-        // [!] TODO!
-        throw new UnsupportedOperationException();
+        
+    	this.dictionary = dictionary;
+    	this.playerGuess = null;
     }
     
     /**
@@ -45,6 +51,10 @@ public class DistlePlayer {
     public String makeGuess () {
         // [!] TODO!
         throw new UnsupportedOperationException();
+    	//return dictionary.getWord();
+       
+       
+      
     }
     
     /**
@@ -64,6 +74,7 @@ public class DistlePlayer {
      */
     public void getFeedback (String guess, int editDistance, List<String> transforms) {
         // [!] TODO!
+    	transforms = getTransformationList (guess,guess);
         throw new UnsupportedOperationException();
     }
     

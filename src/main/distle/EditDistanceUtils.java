@@ -30,33 +30,36 @@ public class EditDistanceUtils {
 		// Fill out table:
 		for (int r = 1; r < rowSize + 1; r++) {
 			for (int c = 1; c < columnSize + 1; c++) {
+				//List<Integer> possibleSteps = new ArrayList<>();
+				
+				// deletion case (r >= 1)
+				table[r][c] = table[r - 1][c] + 1;
+					//possibleSteps.add(table[r - 1][c] + 1);
 
-				// deletion case
-				if (r >= 1) {
-					table[r][c] = table[r - 1][c] + 1;
-
-				}
-				// insertion case
-				if (c >= 1) {
+				
+				// insertion case (c >= 1)
 					table[r][c] = Math.min(table[r][c - 1] + 1, table[r][c]);
+					//possibleSteps.add(table[r][c - 1] + 1);
 
-				}
-				// replacement case
-				if (r >= 1 && c >= 1) {
+			
+				// replacement case (r & c are both > = 1 NOTE if same letter, don't add one)
 					if (s0.charAt(r - 1) == s1.charAt(c - 1)) {
 						table[r][c] = Math.min(table[r - 1][c - 1], table[r][c]);
+						//possibleSteps.add(table[r - 1][c - 1]);
 					} else {
+						//possibleSteps.add(table[r - 1][c - 1] + 1);
 						table[r][c] = Math.min(table[r - 1][c - 1] + 1, table[r][c]);
 
 					}
-				}
+			
 				// transposition case
 				if (r >= 2 && c >= 2 && s0.charAt(r - 1) == s1.charAt(c - 2) && s0.charAt(r - 2) == s1.charAt(c - 1)) {
 					table[r][c] = Math.min(table[r - 2][c - 2] + 1, table[r][c]);
-
+					//possibleSteps.add(table[r - 2][c - 2] + 1);
 				}
-
+				//table[r][c] = Collections.min(possibleSteps);
 			}
+			
 		}
 
 		return table;
@@ -87,68 +90,61 @@ public class EditDistanceUtils {
 	 *         followed by a transposition, then insertion.
 	 */
 	public static List<String> getTransformationList(String s0, String s1, int[][] table) {
-		// [!] TODO!
+		
 		List<String> transformation = new ArrayList<String>();
 		int row = s0.length();
 		int column = s1.length();
-		// table [row][column];
-
-		// if edit is 0 base case
-		// helper method: recursive
-		//
+		
 		while (table[row][column] != 0) {
-			// String bestaction = getMin(table, row, column, s0, s1);
-
+			
 			int best = Integer.MAX_VALUE;
 			int nextRow = row;
 			int nextColumn = column;
 			String action = "R";
 
-			// if (row >=1 && column >=1) {
-			// if its replacement
+			
+			//Replacement case
 			if (row >= 1 && column >= 1 && table[row - 1][column - 1] < best) {
 				best = table[row - 1][column - 1];
 				action = "R";
-				// table[row][column] = table[row - 1][column -1];
 				nextRow = row - 1;
 				nextColumn = column - 1;
-
 			}
-			// if its transposition
-
+			
+			
+			//Transposition case
 			if (row >= 2 && column >= 2 && table[row - 2][column - 2] < best) {
 				if (s0.charAt(row - 1) == s1.charAt(column - 2) && s0.charAt(row - 2) == s1.charAt(column - 1)) {
 					best = table[row - 2][column - 2];
 					action = "T";
 					nextRow = row - 2;
 					nextColumn = column - 2;
-
 				}
 			}
-			// if its insertion
+			
+			
+			//Insertion case
 			if (column >= 1 && table[row][column - 1] < best) {
 				best = table[row][column - 1];
 				action = "I";
 				nextColumn = column - 1;
-				
-
+				nextRow = row;
 			}
-			//if its deletion
+			
+			
+			//Deletion case
 			if (row >= 1 && table[row - 1][column] < best) {
 				best = table[row - 1][column];
 				action = "D";
-				nextRow = row -1; 
-				
-
+				nextRow = row -1;
+				nextColumn = column;
 			}
 
-			// }
-			
-			
 			if (!(action.equals("R") && s0.charAt(row-1) == s1.charAt(column-1))) {
 				transformation.add(action);
 				
 			}
+			
 			row = nextRow;
 			column = nextColumn;
 			
@@ -157,33 +153,6 @@ public class EditDistanceUtils {
 		return transformation;
 
 	}
-
-	/**
-	 * Helper Method
-	 */
-	/**
-	 * private static String getMin(int[][] table, int row, int column, String s0,
-	 * String s1) { int best = Integer.MAX_VALUE; int replacement =
-	 * table[row-1][column-1]; int deletion = table[row-1][column]; int insertion =
-	 * table[row][column-1]; int transposition = table[row-2][column -2]; String
-	 * action = "R";
-	 * 
-	 * if (row >=1 && column >=1) {
-	 * 
-	 * if (replacement < best) { best = replacement; action = "R";
-	 * 
-	 * }
-	 * 
-	 * if (s0.charAt(row-1) == s1.charAt(column-2) && s0.charAt(row-2) ==
-	 * s1.charAt(column-1)) { if (transposition < best) { best = transposition;
-	 * action = "T"; } } if (insertion < best) { best = insertion; action = "I"; }
-	 * if (deletion < best) { best = deletion; action = "D"; }
-	 * 
-	 * 
-	 * } return action;
-	 * 
-	 * }
-	 */
 	/**
 	 * Returns the edit distance between the two given strings: an int representing
 	 * the number of String manipulations (Insertions, Deletions, Replacements, and
