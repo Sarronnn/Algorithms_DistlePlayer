@@ -48,8 +48,8 @@ public class DistlePlayer {
      * @return The next guess from this DistlePlayer.
      */
     public String makeGuess () {
-    	String guessed = " ";
     	
+    	String guessed = " ";
     	if(playerGuess == null) {
     		
     		for(String stringToCompare: dictionary) {
@@ -60,10 +60,12 @@ public class DistlePlayer {
     		}
     	}
     	else {
-    		return playerGuess;
+    		for(String obj : dictionary) {
+    	        return obj;
+    	   
+    		}
     	}
-    	return guessed;
-    	 
+    	return guessed; 
     }
     
     /**
@@ -84,12 +86,15 @@ public class DistlePlayer {
     public void getFeedback (String guess, int editDistance, List<String> transforms) {
        
     	Set<String> updatedDict = new HashSet<>(); 
+    	
     	for(String stringtoCompare : dictionary) {
     		List<String > compare = getTransformationList(guess, stringtoCompare); 
         	if (transforms.equals(compare)) {
         		updatedDict.add(stringtoCompare);
+        		
         	}
         }
+    	dictionary = updatedDict;
     }
     
 }
