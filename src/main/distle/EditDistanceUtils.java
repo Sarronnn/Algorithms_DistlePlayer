@@ -14,6 +14,8 @@ public class EditDistanceUtils {
 	 * @return Completed Memoization structure for editDistance(s0, s1)
 	 */
 	public static int[][] getEditDistTable(String s0, String s1) {
+        // >> [TN] Remember to delete unneeded comments. Some of the inline comments 
+        // are also not needed since the code isn't too complex that it is unreadable (-0.5)
 
 		int rowSize = s0.length();
 		int columnSize = s1.length();
@@ -93,6 +95,7 @@ public class EditDistanceUtils {
 			int nextRow = row;
 			int nextColumn = column;
 			String action = "R";
+            // >> [TN] There's two newlines here, leading to inconsistent spacing (-0.25)
 
 			
 			//Replacement case
@@ -166,3 +169,25 @@ public class EditDistanceUtils {
 	}
 
 }
+
+
+// ===================================================
+// >>> [TN] Summary
+// Very well done! Your edit distance utils is well implemented and
+// the Distle player is excellent.
+// ---------------------------------------------------
+// >>> [TN] Style Checklist
+// [X] = Good, [~] = Mixed bag, [ ] = Needs improvement
+//
+// [X] Variables and helper methods named and used well
+// [X] Proper and consistent indentation and spacing
+// [X] Proper JavaDocs provided for ALL methods
+// [X] Logic is adequately simplified
+// [X] Code repetition is kept to a minimum
+// ---------------------------------------------------
+// Correctness:         99.5 / 100
+// -> EditDistUtils:    20 / 20  (-2 / missed test)
+// -> DistlePlayer:     264 / 265 (-0.5 / below threshold; max -25)
+// Style Penalty:       -0
+// Total:               99.5 / 100
+// ===================================================
